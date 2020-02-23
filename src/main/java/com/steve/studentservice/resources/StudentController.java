@@ -1,6 +1,8 @@
 package com.steve.studentservice.resources;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,31 +16,41 @@ import com.steve.studentservice.models.Student;
 @RestController
 public class StudentController {
 	
+	//@Autowired
+	//private StudentService service;
+	
 	@Autowired
-	private StudentService service;
+	private StudentRepository studentRepository;
 	
 	@RequestMapping("/students")
 	public List<Student> getStudentDetails(){
-		return service.getAll();
+		List<Student> list = new ArrayList<>();
+		studentRepository.findAll().forEach(list::add);
+		return list;
+		//return service.getAll();
 	}
 	
 	@RequestMapping("/students/{id}")
-	public Student getStudentById(@PathVariable String id) {
-		return service.getStudentById(id);
+	public Optional<Student> getStudentById(@PathVariable String id) {
+		return studentRepository.findById(id);
+		//return service.getStudentById(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "/students/{id}")
 	public void delStudentById(@PathVariable("id") String id) {
-		service.delStudent(id);
+		studentRepository.deleteById(id);
+		//service.delStudent(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/students")
 	public void editStudent(@RequestBody Student student) {
-		service.editStudent(student);
+		studentRepository.save(student);
+		//service.editStudent(student);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/students")
 	public void addStudent(@RequestBody Student student) {
-		service.addStudent(student);
+		studentRepository.save(student);
+		//service.addStudent(student);
 	}
 }

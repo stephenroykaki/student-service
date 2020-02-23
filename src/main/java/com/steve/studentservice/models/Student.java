@@ -1,6 +1,11 @@
 package com.steve.studentservice.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Student {
+	@Id
 	private String id;
 	private String name;
 	private String college;
@@ -26,6 +31,9 @@ public class Student {
 		this.id = id;
 		this.name = name;
 		this.college = college;
+	}
+	public Student() {
+		
 	}
 	
 }
